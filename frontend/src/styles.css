@@ -1,0 +1,436 @@
+/*
+ * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
+ * Web fonts load via <link> in src/routes/__root.tsx.
+ */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * SmogSlayer design system — "Mist Breathing".
+ * Mist = pale mint-white smoke, Thunder = electric gold, Steel = katana blade.
+ */
+
+@theme inline {
+  --font-sans: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-brush: "Shojumaru", "Sora", serif;
+  --font-blade: "Cinzel", "Times New Roman", serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-mist: var(--mist);
+  --color-mist-deep: var(--mist-deep);
+  --color-thunder: var(--thunder);
+  --color-thunder-hot: var(--thunder-hot);
+  --color-void: var(--void);
+}
+
+@theme {
+  --animate-spin-slow: spin 6s linear infinite;
+  --animate-fade-in: fade-in 0.9s ease-out both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --void: oklch(0.06 0.006 220);
+  --mist: oklch(0.94 0.04 172);
+  --mist-deep: oklch(0.66 0.06 195);
+  --mist-glow: oklch(0.86 0.12 172 / 0.75);
+  --thunder: oklch(0.84 0.165 86);
+  --thunder-hot: oklch(0.98 0.06 95);
+  --thunder-glow: oklch(0.82 0.17 80 / 0.8);
+  --bolt-core: oklch(0.99 0.012 260);
+  --bolt-glow: oklch(0.82 0.1 275);
+  --bolt-bloom: oklch(0.62 0.13 278);
+  --ember: oklch(0.66 0.19 45);
+  --ember-hot: oklch(0.92 0.11 85);
+  --rock: oklch(0.13 0.008 60);
+  --dust: oklch(0.42 0.012 70);
+
+  --steel-light: oklch(0.97 0.02 185);
+  --steel: oklch(0.78 0.025 205);
+  --steel-dark: oklch(0.38 0.02 225);
+  --hamon: oklch(0.99 0.03 170);
+  --tsuka: oklch(0.16 0.02 240);
+  --tsuka-wrap: oklch(0.52 0.09 182);
+  --samegawa: oklch(0.88 0.02 150);
+  --tsuba: oklch(0.22 0.015 230);
+  --brass: oklch(0.72 0.12 80);
+  --brass-dark: oklch(0.45 0.08 70);
+
+  --background: var(--void);
+  --foreground: oklch(0.95 0.012 190);
+  --card: oklch(0.13 0.01 215);
+  --card-foreground: var(--foreground);
+  --popover: oklch(0.13 0.01 215);
+  --popover-foreground: var(--foreground);
+  --primary: var(--mist);
+  --primary-foreground: var(--void);
+  --secondary: oklch(0.2 0.012 215);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.2 0.012 215);
+  --muted-foreground: oklch(0.7 0.02 200);
+  --accent: var(--thunder);
+  --accent-foreground: var(--void);
+  --destructive: oklch(0.62 0.22 27);
+  --destructive-foreground: var(--foreground);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: var(--mist-deep);
+  --chart-1: var(--mist);
+  --chart-2: var(--thunder);
+  --chart-3: var(--mist-deep);
+  --chart-4: oklch(0.7 0.15 40);
+  --chart-5: oklch(0.6 0.1 250);
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--mist);
+  --sidebar-primary-foreground: var(--void);
+  --sidebar-accent: var(--secondary);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+}
+
+@utility text-mist-gradient {
+  background-image: linear-gradient(
+    175deg,
+    var(--steel-light) 0%,
+    var(--mist) 40%,
+    var(--mist-deep) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-thunder-gradient {
+  background-image: linear-gradient(
+    180deg,
+    var(--thunder-hot) 0%,
+    var(--thunder) 55%,
+    var(--brass-dark) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------------- Mist Breathing intro ---------------- */
+@layer components {
+  .intro-root {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    overflow: hidden;
+    background: transparent;
+  }
+  .intro-exit {
+    animation: intro-out 0.9s ease-in forwards;
+  }
+
+  .intro-flash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 90% 80% at 50% 70%,
+      var(--bolt-core) 0%,
+      var(--bolt-glow) 30%,
+      transparent 80%
+    );
+    mix-blend-mode: screen;
+    opacity: 0;
+  }
+
+  /* Stuck katana: thuds into the ground, quivers, then rests at a lean. */
+  .katana-stuck {
+    transform-origin: 50% 100%;
+    animation: katana-quiver 1.5s cubic-bezier(0.25, 0.6, 0.3, 1) both;
+  }
+  .katana {
+    animation:
+      katana-forge 2.2s cubic-bezier(0.2, 0.7, 0.2, 1) both,
+      katana-aura 3.4s ease-in-out 2.2s infinite;
+  }
+  .katana-ember {
+    animation: ember-pulse 2.6s ease-in-out infinite;
+  }
+  .katana-sheen {
+    animation: katana-sheen 3.6s ease-in-out 1.2s infinite;
+  }
+
+  .title-smog {
+    animation: mist-condense 2s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+    filter: drop-shadow(0 0 18px var(--mist-glow)) drop-shadow(0 6px 30px var(--void));
+  }
+  .title-slayer {
+    animation:
+      thunder-in 0.9s steps(1, end) 0.35s both,
+      thunder-flicker 4.2s linear 2s infinite;
+    filter: drop-shadow(0 0 14px var(--thunder-glow)) drop-shadow(0 6px 30px var(--void));
+  }
+  .title-slash {
+    transform-origin: left center;
+    background: linear-gradient(90deg, transparent, var(--thunder-hot), var(--mist), transparent);
+    box-shadow: 0 0 18px var(--thunder-glow);
+    animation: slash 0.9s cubic-bezier(0.7, 0, 0.2, 1) 0.2s both;
+  }
+  .loader {
+    animation: fade-up 0.8s ease-out both;
+  }
+  .loader-track {
+    background: oklch(1 0 0 / 8%);
+    box-shadow: inset 0 0 0 1px oklch(1 0 0 / 8%);
+  }
+  .loader-fill {
+    background: linear-gradient(90deg, var(--mist-deep), var(--mist), var(--thunder-hot));
+    box-shadow:
+      0 0 12px var(--mist-glow),
+      0 0 24px var(--thunder-glow);
+  }
+  .loader-spark {
+    background: var(--thunder-hot);
+    box-shadow:
+      0 0 10px var(--thunder-hot),
+      0 0 22px var(--thunder);
+  }
+  .intro-skip {
+    animation: fade-up 0.8s ease-out 1.5s both;
+  }
+}
+
+@keyframes intro-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes katana-forge {
+  0% {
+    opacity: 0;
+    filter: brightness(10) drop-shadow(0 0 40px var(--bolt-core));
+  }
+  6% {
+    opacity: 1;
+  }
+  30% {
+    filter: brightness(3) drop-shadow(0 0 30px var(--bolt-glow));
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1) drop-shadow(0 0 10px var(--mist-glow)) drop-shadow(0 12px 18px var(--ember));
+  }
+}
+@keyframes katana-aura {
+  0%,
+  100% {
+    filter: brightness(1) drop-shadow(0 0 10px var(--mist-glow)) drop-shadow(0 12px 18px var(--ember));
+  }
+  50% {
+    filter: brightness(1.1) drop-shadow(0 0 18px var(--mist-glow)) drop-shadow(0 14px 26px var(--ember));
+  }
+}
+@keyframes katana-quiver {
+  0% {
+    transform: translateY(-2.5vh) rotate(-4deg);
+  }
+  5% {
+    transform: translateY(0) rotate(-7deg);
+  }
+  14% {
+    transform: rotate(-1.4deg);
+  }
+  25% {
+    transform: rotate(-5.9deg);
+  }
+  37% {
+    transform: rotate(-2.6deg);
+  }
+  50% {
+    transform: rotate(-4.9deg);
+  }
+  64% {
+    transform: rotate(-3.4deg);
+  }
+  80% {
+    transform: rotate(-4.3deg);
+  }
+  100% {
+    transform: rotate(-4deg);
+  }
+}
+@keyframes ember-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  45% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.6;
+  }
+}
+@keyframes katana-sheen {
+  0% {
+    transform: translateY(-420px);
+  }
+  60%,
+  100% {
+    transform: translateY(1100px);
+  }
+}
+@keyframes mist-condense {
+  0% {
+    opacity: 0;
+    letter-spacing: 0.55em;
+    transform: scale(1.18);
+    filter: blur(22px);
+  }
+  55% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 0.02em;
+    transform: none;
+    filter: blur(0) drop-shadow(0 0 18px var(--mist-glow));
+  }
+}
+@keyframes thunder-in {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  14% {
+    opacity: 0.1;
+  }
+  22% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.35;
+  }
+  38%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes thunder-flicker {
+  0%,
+  100%,
+  46%,
+  52% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  51% {
+    opacity: 0.55;
+  }
+}
+@keyframes slash {
+  0% {
+    opacity: 1;
+    transform: rotate(-6deg) scaleX(0);
+  }
+  45% {
+    opacity: 1;
+    transform: rotate(-6deg) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-6deg) scaleX(1);
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .katana-sheen,
+  .katana-ember,
+  .title-slayer {
+    animation-iteration-count: 1;
+  }
+}

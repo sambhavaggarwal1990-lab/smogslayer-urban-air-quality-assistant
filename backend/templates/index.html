@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmogSlayer: Urban Air Quality Assistant</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+  <a class="skip" href="#plan-form">Skip to the form</a>
+  <header>
+    <h1>SmogSlayer</h1>
+    <p>Beat the smog, one habit at a time. Enter your city to see today's air, the best hour to step outside, and small changes that cut your family's exposure and your emissions.</p>
+  </header>
+  <main>
+    <form id="plan-form">
+      <label for="city">City</label>
+      <input id="city" name="city" required minlength="2" maxlength="60" autocomplete="address-level2" placeholder="For example, Delhi">
+      <label for="commute_mode">How do you usually commute?</label>
+      <select id="commute_mode" name="commute_mode">
+        <option value="car">Car</option>
+        <option value="motorbike">Motorbike or scooter</option>
+        <option value="bus">Bus</option>
+        <option value="metro">Metro or train</option>
+        <option value="walk_or_cycle">Walk or cycle</option>
+      </select>
+      <label for="one_way_km">One-way distance (km)</label>
+      <input id="one_way_km" name="one_way_km" type="number" min="0" max="100" step="0.5" value="10" required>
+      <label class="check"><input type="checkbox" name="sensitive_group"> Children, older adults or someone with asthma at home</label>
+      <label class="check"><input type="checkbox" name="has_purifier"> I have an air purifier</label>
+      <label for="language">Language for the tips</label>
+      <select id="language" name="language"><option value="en">English</option><option value="hi">हिन्दी (Hindi)</option><option value="hinglish">Hinglish</option></select>
+      <button type="submit">Get my plan</button>
+    </form>
+    <p id="status" role="status"></p>
+    <section id="results" tabindex="-1" aria-label="Your plan"></section>
+  </main>
+  <footer>Air-quality data from <a href="https://open-meteo.com/">Open-Meteo</a> (CC BY 4.0). Values are modelled estimates. Nothing you enter is stored, and streaks stay on your device.</footer>
+</body>
+</html>
