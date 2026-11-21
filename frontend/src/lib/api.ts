@@ -21,7 +21,8 @@ export type Plan = {
   disclaimer: string;
 };
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:5001";
+const DEFAULT_API_URL = import.meta.env.PROD ? "https://smogslayer-api.onrender.com" : "http://127.0.0.1:5001";
+const API_URL = import.meta.env.VITE_API_URL ?? DEFAULT_API_URL;
 
 /** Ask the SmogSlayer backend for a plan. Throws an Error with a message that is safe to show. */
 export async function fetchPlan(request: PlanRequest): Promise<Plan> {
