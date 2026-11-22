@@ -21,14 +21,21 @@ export type Plan = {
   disclaimer: string;
 };
 
-const DEFAULT_API_URL = import.meta.env.PROD ? "https://smogslayer-api.onrender.com" : "http://127.0.0.1:5001";
-const API_URL = import.meta.env.VITE_API_URL ?? DEFAULT_API_URL;
+const HOSTED_API_URL = "https://smogslayer-api.onrender.com";
+const LOCAL_API_URL = "http://127.0.0.1:5001";
+
+/** Use the local API when this page runs on localhost, otherwise the hosted one. */
+function apiUrl(): string {
+  const configured = import.meta.env.VITE_API_URL;
+  if (configured) return configured;
+  return ["localhost", "127.0.0.1"].includes(window.location.hostname) ? LOCAL_API_URL : HOSTED_API_URL;
+}
 
 /** Ask the SmogSlayer backend for a plan. Throws an Error with a message that is safe to show. */
 export async function fetchPlan(request: PlanRequest): Promise<Plan> {
   let response: Response;
   try {
-    response = await fetch(`${API_URL}/api/plan`, {
+    response = await fetch(`${apiUrl()}/api/plan`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(request),
