@@ -59,7 +59,11 @@ export function SmogCanvas({ params, seed = 0, scale = 0.5, className }: Props) 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const gl = canvas.getContext("webgl", { premultipliedAlpha: true, antialias: false, alpha: true });
+    const gl = canvas.getContext("webgl", {
+      premultipliedAlpha: true,
+      antialias: false,
+      alpha: true,
+    });
     if (!gl) return;
 
     const vs = compile(gl, gl.VERTEX_SHADER, SMOG_VERTEX);
@@ -96,7 +100,10 @@ export function SmogCanvas({ params, seed = 0, scale = 0.5, className }: Props) 
 
     const resize = () => {
       const w = Math.max(1, Math.round(Math.min(canvas.clientWidth * scale, 1100)));
-      const h = Math.max(1, Math.round(w * (canvas.clientHeight / Math.max(1, canvas.clientWidth))));
+      const h = Math.max(
+        1,
+        Math.round(w * (canvas.clientHeight / Math.max(1, canvas.clientWidth))),
+      );
       if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w;
         canvas.height = h;

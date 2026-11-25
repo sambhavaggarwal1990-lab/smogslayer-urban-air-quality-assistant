@@ -1,4 +1,5 @@
 <!-- LOVABLE:BEGIN -->
+
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
 > published git history — force pushing, or rebasing/amending/squashing commits
@@ -27,10 +28,13 @@ use the editor.
   `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
+
 <!-- LOVABLE:END -->
 
 <!-- AGENT-MEMORY:BEGIN -->
+
 - One WebGL smog layer (`src/components/smog/SmogCanvas`) is mounted once in `/` and driven through a shared params ref; the intro animates it and it keeps running behind the app, so never remount it per screen.
 - Strike-scene layout (impact point, horizon, katana size/tilt) lives in `src/components/intro/scene.ts`; ground shader, particles and katana CSS all read it, so move them together.
 - Intro choreography timings live only in `src/components/intro/intro-timeline.ts` (covered by its test); change timings there, not inside components.
+
 <!-- AGENT-MEMORY:END -->

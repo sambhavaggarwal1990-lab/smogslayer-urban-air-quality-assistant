@@ -11,12 +11,14 @@ export const Route = createFileRoute("/")({
       { title: "SmogSlayer — Beat the smog, one habit at a time" },
       {
         name: "description",
-        content: "Check today's air in your city, the best hours to step outside and low-emission habits for your family.",
+        content:
+          "Check today's air in your city, the best hours to step outside and low-emission habits for your family.",
       },
       { property: "og:title", content: "SmogSlayer — Mist Breathing" },
       {
         property: "og:description",
-        content: "Your clean-air action plan: live AQI, best hours outdoors and greener commute tips.",
+        content:
+          "Your clean-air action plan: live AQI, best hours outdoors and greener commute tips.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -33,14 +35,21 @@ function Index() {
 
   return (
     <div className="relative min-h-screen bg-background">
-      <SmogCanvas params={smog} className="pointer-events-none fixed inset-0 z-0 h-screen w-screen" />
+      <SmogCanvas
+        params={smog}
+        className="pointer-events-none fixed inset-0 z-0 h-screen w-screen"
+      />
       {showApp && (
         <div className="relative z-10 animate-fade-in">
           <SmogSlayerDashboard />
         </div>
       )}
       {!introDone && (
-        <MistIntro smog={smog} onReveal={() => setShowApp(true)} onComplete={() => setIntroDone(true)} />
+        <MistIntro
+          smog={smog}
+          onReveal={() => setShowApp(true)}
+          onComplete={() => setIntroDone(true)}
+        />
       )}
     </div>
   );

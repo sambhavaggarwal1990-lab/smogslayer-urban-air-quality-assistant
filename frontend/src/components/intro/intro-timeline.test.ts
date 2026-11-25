@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { LEADER, RETURN_STROKES, TIMELINE, crackAt, heatAt, loadProgressAt, smogAt, stageAt } from "./intro-timeline";
+import {
+  LEADER,
+  RETURN_STROKES,
+  TIMELINE,
+  crackAt,
+  heatAt,
+  loadProgressAt,
+  smogAt,
+  stageAt,
+} from "./intro-timeline";
 
 describe("Mist Breathing intro order", () => {
   it("opens on a black screen with no smog", () => {

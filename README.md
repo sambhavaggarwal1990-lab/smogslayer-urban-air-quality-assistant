@@ -21,7 +21,7 @@ SmogSlayer is a GenAI-powered assistant for families and communities facing seve
 
 ## Safety and security
 - Not medical advice: every plan says so and reminds users to call their local emergency number for breathing trouble.
-- Inputs are validated, requests are size-limited and rate-limited, and the API key stays in an environment variable.
+- Inputs are validated, request bodies are size-limited, errors never expose internals, and the API key stays in an environment variable.
 - Free text never reaches the model. Nothing a user enters is stored.
 
 ## Assumptions

@@ -1,7 +1,11 @@
-"""Settings and lookup tables, kept in one place so they are easy to review."""
+"""Settings and lookup tables, all in one place.
 
-# US AQI bands: (highest AQI in the band, label).
-AQI_BANDS = (
+Keeping numbers and texts here means they are easy to review and change without touching the logic.
+"""
+
+# --- Air quality bands ----------------------------------------------------------------------------
+# US AQI scale. Each pair is (highest AQI in the band, label); bands are checked from the lowest up.
+AQI_BANDS: tuple[tuple[float, str], ...] = (
     (50, "Good"),
     (100, "Moderate"),
     (150, "Unhealthy for sensitive groups"),
@@ -10,14 +14,42 @@ AQI_BANDS = (
     (float("inf"), "Hazardous"),
 )
 
-# Rough planning figures in kg CO2e per passenger-km. Replace with cited local data.
-EMISSION_KG_PER_KM = {"car": 0.17, "motorbike": 0.10, "bus": 0.08, "metro": 0.04, "walk_or_cycle": 0.0}
-COMMUTE_MODES = tuple(EMISSION_KG_PER_KM)
-WORKING_DAYS_PER_MONTH = 22
-MAX_ONE_WAY_KM = 100
+# --- Commute emissions -----------------------------------------------------------------------------
+# Rough planning figures in kg of CO2e per passenger-km. Replace with cited local data before relying on them.
+EMISSION_KG_PER_KM: dict[str, float] = {
+    "car": 0.17,
+    "motorbike": 0.10,
+    "bus": 0.08,
+    "metro": 0.04,
+    "walk_or_cycle": 0.0,
+}
+COMMUTE_MODES: tuple[str, ...] = tuple(EMISSION_KG_PER_KM)
+WORKING_DAYS_PER_MONTH = 22  # used to turn a daily commute into a monthly figure
+MAX_ONE_WAY_KM = 100         # largest distance the API accepts
 
-# Used when Gemini is unavailable. Tiers: ok (AQI <= 100), poor (<= 200), severe (above).
-FALLBACK_TIPS = {
+# --- Languages for the tips ---------------------------------------------------------------------------
+# Code -> name used inside the Gemini prompt.
+LANGUAGES: dict[str, str] = {
+    "en": "English",
+    "hi": "Hindi",
+    "hinglish": "Hinglish (Hindi written in English letters)",
+}
+LANGUAGE_CODES: tuple[str, ...] = tuple(LANGUAGES)
+
+# --- Safety messages ---------------------------------------------------------------------------------
+# Fixed texts, never written by the AI, so they cannot be wrong or invented. Keyed by AQI category.
+SAFETY_ALERTS: dict[str, str] = {
+    "Unhealthy for sensitive groups": "Air is unhealthy for sensitive groups. Children, older adults and people with asthma or heart conditions should limit time outdoors.",
+    "Unhealthy": "Air is unhealthy for everyone. Cut back on outdoor exertion and keep windows closed.",
+    "Very unhealthy": "Air is very unhealthy. Stay indoors where you can and skip outdoor exercise.",
+    "Hazardous": "Air is hazardous. Stay indoors with windows shut and avoid all outdoor activity.",
+}
+# Added to the routine when the household includes children, older adults or someone with asthma.
+SENSITIVE_TIP = "Children, older adults and people with asthma should keep outdoor time short and avoid busy roads."
+
+# --- Built-in tips ---------------------------------------------------------------------------------------
+# Shown when Gemini is unavailable. Tiers: "ok" (AQI <= 100), "poor" (<= 200), "severe" (above 200).
+FALLBACK_TIPS: dict[str, dict[str, list[str]]] = {
     "ok": {
         "routine": ["Walk, cycle or take public transport for short trips.", "Avoid idling your engine while you wait."],
         "indoor": ["Open windows while outdoor air is good.", "Dust with a damp cloth instead of dry sweeping."],
@@ -33,16 +65,4 @@ FALLBACK_TIPS = {
         "indoor": ["Seal gaps, keep windows shut and run a HEPA purifier on high.", "Mop damp instead of sweeping, and never burn waste or wood."],
         "alternatives": ["Work from home or share rides today if you can.", "Skip the car for any trip a metro or bus can cover."],
     },
-}
-SENSITIVE_TIP = "Children, older adults and people with asthma should keep outdoor time short and avoid busy roads."
-
-LANGUAGES = {"en": "English", "hi": "Hindi", "hinglish": "Hinglish (Hindi written in English letters)"}
-LANGUAGE_CODES = tuple(LANGUAGES)
-
-# Fixed safety messages: they are never written by the AI, so they cannot be wrong or invented.
-SAFETY_ALERTS = {
-    "Unhealthy for sensitive groups": "Air is unhealthy for sensitive groups. Children, older adults and people with asthma or heart conditions should limit time outdoors.",
-    "Unhealthy": "Air is unhealthy for everyone. Cut back on outdoor exertion and keep windows closed.",
-    "Very unhealthy": "Air is very unhealthy. Stay indoors where you can and skip outdoor exercise.",
-    "Hazardous": "Air is hazardous. Stay indoors with windows shut and avoid all outdoor activity.",
 }

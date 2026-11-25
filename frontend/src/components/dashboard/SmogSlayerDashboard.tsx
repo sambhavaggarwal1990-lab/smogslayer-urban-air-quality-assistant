@@ -30,14 +30,25 @@ export function SmogSlayerDashboard() {
     <div className="relative min-h-screen overflow-x-hidden font-sans text-slate-100 selection:bg-cyan-500 selection:text-slate-950">
       <header className="sticky top-0 z-10 border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-xl">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-          <button type="button" onClick={() => setPlan(null)} className="flex items-center gap-3 text-left">
-            <span aria-hidden className="rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 p-2.5 font-black text-slate-950">⚡</span>
+          <button
+            type="button"
+            onClick={() => setPlan(null)}
+            className="flex items-center gap-3 text-left"
+          >
+            <span
+              aria-hidden
+              className="rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 p-2.5 font-black text-slate-950"
+            >
+              ⚡
+            </span>
             <span>
               <span className="block text-2xl leading-none tracking-tight">
                 <span className="font-brush text-mist-gradient">Smog</span>
                 <span className="font-blade font-black text-thunder-gradient">Slayer</span>
               </span>
-              <span className="hidden text-xs text-slate-300 sm:block">Clean Air Action Dashboard</span>
+              <span className="hidden text-xs text-slate-300 sm:block">
+                Clean Air Action Dashboard
+              </span>
             </span>
           </button>
           {plan && (

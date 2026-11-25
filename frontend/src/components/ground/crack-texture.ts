@@ -57,7 +57,10 @@ export function makeCrackCanvas(size = 1024, world = 5) {
       const s = pts[k];
       if (!s) continue;
       const fa = ang + (Math.random() < 0.5 ? -1 : 1) * (0.4 + Math.random() * 0.6);
-      cracks.push({ pts: walk(s, fa, (len - k * 5) * (0.35 + Math.random() * 0.4), 4, 0.3), w: w * (1 - k / pts.length) * 0.7 });
+      cracks.push({
+        pts: walk(s, fa, (len - k * 5) * (0.35 + Math.random() * 0.4), 4, 0.3),
+        w: w * (1 - k / pts.length) * 0.7,
+      });
     }
   }
   // Shattered rings around the impact
@@ -77,7 +80,14 @@ export function makeCrackCanvas(size = 1024, world = 5) {
   for (let i = 0; i < 6; i++) {
     const ox = (Math.random() - 0.5) * u * 0.4;
     const oy = (Math.random() - 0.5) * u * 0.4;
-    const g = ctx.createRadialGradient(c + ox, c + oy, 0, c + ox, c + oy, u * (0.8 + Math.random() * 0.8));
+    const g = ctx.createRadialGradient(
+      c + ox,
+      c + oy,
+      0,
+      c + ox,
+      c + oy,
+      u * (0.8 + Math.random() * 0.8),
+    );
     g.addColorStop(0, "rgba(0,0,255,0.35)");
     g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g;

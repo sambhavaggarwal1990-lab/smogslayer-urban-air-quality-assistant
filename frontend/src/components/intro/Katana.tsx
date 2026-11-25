@@ -57,38 +57,88 @@ export function Katana({ className }: { className?: string }) {
       </defs>
 
       <g transform="rotate(180 60 500)">
-      {/* Blade */}
-      <path d={BLADE} fill="url(#kt-blade)" />
-      <g clipPath="url(#kt-blade-clip)">
-        <path d="M59.5,640 C59,450 59.2,240 61.5,70" fill="none" style={{ stroke: "var(--steel-dark)" }} strokeWidth="0.8" opacity="0.7" />
-        <path d={HAMON} fill="none" style={{ stroke: "var(--hamon)" }} strokeWidth="1.6" opacity="0.9" />
-        <rect className="katana-sheen" x="40" y="0" width="40" height="260" fill="url(#kt-sheen)" opacity="0.75" />
-        {/* soot and crack-glow where the blade enters the ground */}
-        <rect x="40" y="180" width="40" height="70" fill="url(#kt-soot)" />
-        <rect className="katana-ember" x="40" y="180" width="40" height="300" fill="url(#kt-ember)" />
-      </g>
+        {/* Blade */}
+        <path d={BLADE} fill="url(#kt-blade)" />
+        <g clipPath="url(#kt-blade-clip)">
+          <path
+            d="M59.5,640 C59,450 59.2,240 61.5,70"
+            fill="none"
+            style={{ stroke: "var(--steel-dark)" }}
+            strokeWidth="0.8"
+            opacity="0.7"
+          />
+          <path
+            d={HAMON}
+            fill="none"
+            style={{ stroke: "var(--hamon)" }}
+            strokeWidth="1.6"
+            opacity="0.9"
+          />
+          <rect
+            className="katana-sheen"
+            x="40"
+            y="0"
+            width="40"
+            height="260"
+            fill="url(#kt-sheen)"
+            opacity="0.75"
+          />
+          {/* soot and crack-glow where the blade enters the ground */}
+          <rect x="40" y="180" width="40" height="70" fill="url(#kt-soot)" />
+          <rect
+            className="katana-ember"
+            x="40"
+            y="180"
+            width="40"
+            height="300"
+            fill="url(#kt-ember)"
+          />
+        </g>
 
-      {/* Habaki & seppa */}
-      <rect x="53.5" y="638" width="17" height="24" rx="2" fill="url(#kt-brass)" />
-      <rect x="44" y="660" width="32" height="3.5" rx="1" fill="url(#kt-brass)" />
-      {/* Tsuba */}
-      <rect x="20" y="663" width="80" height="14" rx="6" fill="url(#kt-tsuba)" style={{ stroke: "var(--brass)" }} strokeWidth="1.4" />
-      <rect x="44" y="677" width="32" height="3.5" rx="1" fill="url(#kt-brass)" />
+        {/* Habaki & seppa */}
+        <rect x="53.5" y="638" width="17" height="24" rx="2" fill="url(#kt-brass)" />
+        <rect x="44" y="660" width="32" height="3.5" rx="1" fill="url(#kt-brass)" />
+        {/* Tsuba */}
+        <rect
+          x="20"
+          y="663"
+          width="80"
+          height="14"
+          rx="6"
+          fill="url(#kt-tsuba)"
+          style={{ stroke: "var(--brass)" }}
+          strokeWidth="1.4"
+        />
+        <rect x="44" y="677" width="32" height="3.5" rx="1" fill="url(#kt-brass)" />
 
-      {/* Tsuka with criss-cross wrap */}
-      <rect x="50" y="680" width="20" height="270" rx="5" style={{ fill: "var(--samegawa)" }} />
-      <g clipPath="url(#kt-tsuka-clip)" style={{ stroke: "var(--tsuka-wrap)" }} strokeWidth="6.5" strokeLinecap="square">
-        {WRAPS.map((y) => (
-          <g key={y}>
-            <line x1="48" y1={y - 4} x2="72" y2={y + 22} />
-            <line x1="72" y1={y - 4} x2="48" y2={y + 22} />
-          </g>
-        ))}
-      </g>
-      <rect x="50" y="680" width="20" height="270" rx="5" fill="none" style={{ stroke: "var(--tsuka)" }} strokeWidth="1.5" />
+        {/* Tsuka with criss-cross wrap */}
+        <rect x="50" y="680" width="20" height="270" rx="5" style={{ fill: "var(--samegawa)" }} />
+        <g
+          clipPath="url(#kt-tsuka-clip)"
+          style={{ stroke: "var(--tsuka-wrap)" }}
+          strokeWidth="6.5"
+          strokeLinecap="square"
+        >
+          {WRAPS.map((y) => (
+            <g key={y}>
+              <line x1="48" y1={y - 4} x2="72" y2={y + 22} />
+              <line x1="72" y1={y - 4} x2="48" y2={y + 22} />
+            </g>
+          ))}
+        </g>
+        <rect
+          x="50"
+          y="680"
+          width="20"
+          height="270"
+          rx="5"
+          fill="none"
+          style={{ stroke: "var(--tsuka)" }}
+          strokeWidth="1.5"
+        />
 
-      {/* Kashira */}
-      <rect x="48.5" y="946" width="23" height="20" rx="5" fill="url(#kt-brass)" />
+        {/* Kashira */}
+        <rect x="48.5" y="946" width="23" height="20" rx="5" fill="url(#kt-brass)" />
       </g>
     </svg>
   );

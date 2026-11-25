@@ -24,7 +24,8 @@ const BAND: Record<string, { bar: string; text: string }> = {
 };
 const bandOf = (category: string) => BAND[category] ?? MODERATE;
 
-const card = "space-y-4 rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl backdrop-blur-xl sm:p-8";
+const card =
+  "space-y-4 rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl backdrop-blur-xl sm:p-8";
 
 function CopyButton({ plan }: { plan: Plan }) {
   const [copied, setCopied] = useState(false);
@@ -79,7 +80,11 @@ function Outlook({ outlook }: { outlook: NonNullable<Plan["outlook"]> }) {
       <div aria-hidden className="flex h-40 items-end gap-1">
         {hours.map((hour) => {
           const mark =
-            hour.label === best.label ? "ring-2 ring-emerald-300" : hour.label === worst.label ? "ring-2 ring-rose-300" : "";
+            hour.label === best.label
+              ? "ring-2 ring-emerald-300"
+              : hour.label === worst.label
+                ? "ring-2 ring-rose-300"
+                : "";
           return (
             <div
               key={hour.label}
@@ -91,7 +96,8 @@ function Outlook({ outlook }: { outlook: NonNullable<Plan["outlook"]> }) {
         })}
       </div>
       <p className="rounded-xl border border-slate-800/80 bg-slate-950/60 p-3.5 text-sm text-slate-200">
-        Best time to be outside: <strong>{best.label}</strong> (AQI {best.aqi}). Roughest: <strong>{worst.label}</strong> (AQI {worst.aqi}).
+        Best time to be outside: <strong>{best.label}</strong> (AQI {best.aqi}). Roughest:{" "}
+        <strong>{worst.label}</strong> (AQI {worst.aqi}).
       </p>
     </section>
   );
@@ -105,7 +111,9 @@ function Impact({ impact }: { impact: Plan["impact"] }) {
         Commuting by {MODE_LABEL[impact.mode]} adds roughly{" "}
         <strong className="text-amber-300">{impact.monthly_co2_kg} kg CO₂ a month</strong>.
       </p>
-      {impact.switches.length === 0 && <p className="text-sm text-emerald-300">You already use the cleanest option.</p>}
+      {impact.switches.length === 0 && (
+        <p className="text-sm text-emerald-300">You already use the cleanest option.</p>
+      )}
       {impact.switches.map((option) => (
         <div key={option.mode} className="space-y-1.5">
           <div className="flex justify-between text-xs font-semibold text-slate-200">
@@ -139,9 +147,14 @@ function Pledge({ tips }: { tips: string[] }) {
       <div className="flex items-center justify-between gap-3">
         <div>
           <h2 className="text-lg font-bold text-white">Today's low-emission routine</h2>
-          <p className="text-xs text-slate-300">Tick every action to extend your clean-air streak</p>
+          <p className="text-xs text-slate-300">
+            Tick every action to extend your clean-air streak
+          </p>
         </div>
-        <p aria-live="polite" className="flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs font-bold text-amber-300">
+        <p
+          aria-live="polite"
+          className="flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs font-bold text-amber-300"
+        >
           <Flame className="h-4 w-4" /> Streak: {streak} day(s)
         </p>
       </div>
@@ -150,11 +163,22 @@ function Pledge({ tips }: { tips: string[] }) {
           <li key={`${index}-${tip}`}>
             <label
               className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 ${
-                checked[index] ? "border-emerald-500/40 bg-emerald-950/20" : "border-slate-800/80 bg-slate-950/40 hover:border-slate-700"
+                checked[index]
+                  ? "border-emerald-500/40 bg-emerald-950/20"
+                  : "border-slate-800/80 bg-slate-950/40 hover:border-slate-700"
               }`}
             >
-              <input type="checkbox" checked={checked[index]} onChange={() => toggle(index)} className="mt-0.5 h-5 w-5 accent-emerald-500" />
-              <span className={`text-sm font-medium ${checked[index] ? "text-white line-through opacity-80" : "text-slate-200"}`}>{tip}</span>
+              <input
+                type="checkbox"
+                checked={checked[index]}
+                onChange={() => toggle(index)}
+                className="mt-0.5 h-5 w-5 accent-emerald-500"
+              />
+              <span
+                className={`text-sm font-medium ${checked[index] ? "text-white line-through opacity-80" : "text-slate-200"}`}
+              >
+                {tip}
+              </span>
             </label>
           </li>
         ))}
@@ -181,14 +205,19 @@ export function PlanResults({ plan }: { plan: Plan }) {
   return (
     <div className="space-y-8">
       {alert && (
-        <div role="alert" className="flex items-start gap-3 rounded-2xl border border-red-500/40 bg-red-950/40 p-5 text-red-100">
+        <div
+          role="alert"
+          className="flex items-start gap-3 rounded-2xl border border-red-500/40 bg-red-950/40 p-5 text-red-100"
+        >
           <ShieldAlert className="mt-0.5 h-6 w-6 shrink-0 text-red-400" />
           <p className="font-semibold">{alert}</p>
         </div>
       )}
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-slate-300">
-          {advice.source === "gemini" ? "Tips written by Gemini" : "Built-in tips (AI unavailable right now)"}
+          {advice.source === "gemini"
+            ? "Tips written by Gemini"
+            : "Built-in tips (AI unavailable right now)"}
         </p>
         <CopyButton plan={plan} />
       </div>
@@ -202,7 +231,10 @@ export function PlanResults({ plan }: { plan: Plan }) {
       </div>
       <footer className="space-y-2 border-t border-slate-800/60 pt-6 text-center text-xs text-slate-300">
         <p>{disclaimer}</p>
-        <p>Air-quality data: Open-Meteo (CC BY 4.0). Values are modelled estimates. Nothing you enter is stored.</p>
+        <p>
+          Air-quality data: Open-Meteo (CC BY 4.0). Values are modelled estimates. Nothing you enter
+          is stored.
+        </p>
       </footer>
     </div>
   );

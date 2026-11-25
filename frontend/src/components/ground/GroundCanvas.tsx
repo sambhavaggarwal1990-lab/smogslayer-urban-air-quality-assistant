@@ -5,9 +5,21 @@ import { SCENE } from "@/components/intro/scene";
 import { makeCrackCanvas } from "./crack-texture";
 import { GROUND_FRAGMENT } from "./ground-shader";
 
-export type GroundParams = { crack: number; heat: number; flash: number; reveal: number; spark: number };
+export type GroundParams = {
+  crack: number;
+  heat: number;
+  flash: number;
+  reveal: number;
+  spark: number;
+};
 
-export const createGroundParams = (): GroundParams => ({ crack: 0, heat: 0, flash: 0, reveal: 0, spark: 0 });
+export const createGroundParams = (): GroundParams => ({
+  crack: 0,
+  heat: 0,
+  flash: 0,
+  reveal: 0,
+  spark: 0,
+});
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
   const s = gl.createShader(type);
@@ -21,12 +33,22 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   return s;
 }
 
-export function GroundCanvas({ params, className }: { params: RefObject<GroundParams>; className?: string }) {
+export function GroundCanvas({
+  params,
+  className,
+}: {
+  params: RefObject<GroundParams>;
+  className?: string;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = ref.current;
-    const gl = canvas?.getContext("webgl", { premultipliedAlpha: true, antialias: false, alpha: true });
+    const gl = canvas?.getContext("webgl", {
+      premultipliedAlpha: true,
+      antialias: false,
+      alpha: true,
+    });
     if (!canvas || !gl) return;
     const vs = compile(gl, gl.VERTEX_SHADER, SMOG_VERTEX);
     const fs = compile(gl, gl.FRAGMENT_SHADER, GROUND_FRAGMENT);
@@ -51,7 +73,14 @@ export function GroundCanvas({ params, className }: { params: RefObject<GroundPa
     const tex = gl.createTexture();
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, makeCrackCanvas(1024, SCENE.crackWorld));
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      makeCrackCanvas(1024, SCENE.crackWorld),
+    );
     gl.generateMipmap(gl.TEXTURE_2D);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
@@ -76,7 +105,10 @@ export function GroundCanvas({ params, className }: { params: RefObject<GroundPa
 
     const resize = () => {
       const w = Math.max(1, Math.round(Math.min(canvas.clientWidth * 0.6, 1400)));
-      const h = Math.max(1, Math.round(w * (canvas.clientHeight / Math.max(1, canvas.clientWidth))));
+      const h = Math.max(
+        1,
+        Math.round(w * (canvas.clientHeight / Math.max(1, canvas.clientWidth))),
+      );
       if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w;
         canvas.height = h;

@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 
-import { GroundCanvas, createGroundParams, type GroundParams } from "@/components/ground/GroundCanvas";
+import {
+  GroundCanvas,
+  createGroundParams,
+  type GroundParams,
+} from "@/components/ground/GroundCanvas";
 import { SmogCanvas, createSmogParams, type SmogParams } from "@/components/smog/SmogCanvas";
 import { ImpactFX, type FxColors } from "./impact-fx";
 import { Katana } from "./Katana";
@@ -39,10 +43,25 @@ type Props = {
 type Arc = { branches: BoltBranch[]; born: number; life: number };
 type Flash = { t: number; flash: number; x: number; y: number };
 
-const STATUS = ["Gathering the mist…", "Reading the sky over your city…", "Sharpening the blade…", "Clearing the air…"];
+const STATUS = [
+  "Gathering the mist…",
+  "Reading the sky over your city…",
+  "Sharpening the blade…",
+  "Clearing the air…",
+];
 
-const STAGE_ORDER: Stage[] = ["dark", "smog", "strike", "katana", "title", "loading", "exit", "done"];
-const reached = (stage: Stage, target: Stage) => STAGE_ORDER.indexOf(stage) >= STAGE_ORDER.indexOf(target);
+const STAGE_ORDER: Stage[] = [
+  "dark",
+  "smog",
+  "strike",
+  "katana",
+  "title",
+  "loading",
+  "exit",
+  "done",
+];
+const reached = (stage: Stage, target: Stage) =>
+  STAGE_ORDER.indexOf(stage) >= STAGE_ORDER.indexOf(target);
 
 const K = SCENE.katana;
 const KATANA_TOP_VH = SCENE.impactY * 100 - KATANA_VISIBLE_VH;
@@ -98,7 +117,10 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
       glow: v("--bolt-glow", "#b9c3ff"),
       bloom: v("--bolt-bloom", "#6f6fe0"),
     };
-    const arcColors: BoltColors = { glow: v("--bolt-glow", "#b9c3ff"), core: v("--bolt-core", "#fbfcff") };
+    const arcColors: BoltColors = {
+      glow: v("--bolt-glow", "#b9c3ff"),
+      core: v("--bolt-core", "#fbfcff"),
+    };
     const fxColors: FxColors = {
       hot: v("--ember-hot", "#ffe1a0"),
       ember: v("--ember", "#ff6a1a"),
@@ -127,7 +149,11 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
 
     const spawnMain = () => {
       strikes.push({
-        tree: makeStrikeTree({ x: W / 2 + (Math.random() - 0.5) * W * 0.14, y: -H * 0.05 }, { x: W / 2, y: H * SCENE.impactY }, 10),
+        tree: makeStrikeTree(
+          { x: W / 2 + (Math.random() - 0.5) * W * 0.14, y: -H * 0.05 },
+          { x: W / 2, y: H * SCENE.impactY },
+          10,
+        ),
         top: -H * 0.05,
         bottom: H * SCENE.impactY,
         leaderStart: LEADER.start,
@@ -140,7 +166,11 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
       const x = W * (left ? 0.05 + Math.random() * 0.25 : 0.7 + Math.random() * 0.25);
       const endY = H * (0.3 + Math.random() * 0.25);
       strikes.push({
-        tree: makeStrikeTree({ x: x + (Math.random() - 0.5) * W * 0.12, y: -10 }, { x, y: endY }, 5),
+        tree: makeStrikeTree(
+          { x: x + (Math.random() - 0.5) * W * 0.12, y: -10 },
+          { x, y: endY },
+          5,
+        ),
         top: -10,
         bottom: endY,
         leaderStart: t,
@@ -156,7 +186,7 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
     const bladeArc = (t: number) => {
       const vh = H / 100;
       const bottom = H * SCENE.impactY;
-      const len = (KATANA_VISIBLE_VH * (1 - K.habakiFrac)) * vh;
+      const len = KATANA_VISIBLE_VH * (1 - K.habakiFrac) * vh;
       const tilt = (K.tiltDeg * Math.PI) / 180;
       const d = Math.random() * len;
       const x = W / 2 + Math.sin(tilt) * d;
@@ -197,7 +227,13 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
       FLASHES.forEach((f, i) => {
         if (!firedFlash.has(i) && t >= f.t) {
           firedFlash.add(i);
-          if (t - f.t < 0.3) flashes.push({ t: f.t, flash: f.flash, x: 0, y: f.t >= TIMELINE.strike ? impactFlashY : 0.25 });
+          if (t - f.t < 0.3)
+            flashes.push({
+              t: f.t,
+              flash: f.flash,
+              x: 0,
+              y: f.t >= TIMELINE.strike ? impactFlashY : 0.25,
+            });
         }
       });
       RETURN_STROKES.forEach((st, i) => {
@@ -249,7 +285,14 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
         clearMax: exiting ? 0.72 : 0.5,
         opacity: exiting ? 0.6 : 1,
       });
-      Object.assign(front.current, { fill, clear, flash: flash * 0.8, flashX: fx0, flashY: fy0, glow: heat * 0.6 });
+      Object.assign(front.current, {
+        fill,
+        clear,
+        flash: flash * 0.8,
+        flashX: fx0,
+        flashY: fy0,
+        glow: heat * 0.6,
+      });
       Object.assign(ground.current, {
         crack: crackAt(t),
         heat,
@@ -286,7 +329,14 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
       strikes = strikes.filter((k) => t < strikeEnd(k));
       if (strikes.length) drawStrikes(ctx, blooms, strikes, t, dpr, strikeColors);
       arcs = arcs.filter((a) => t - a.born < a.life);
-      for (const a of arcs) drawBolt(ctx, a.branches, (1 - (t - a.born) / a.life) * (0.6 + Math.random() * 0.4), dpr, arcColors);
+      for (const a of arcs)
+        drawBolt(
+          ctx,
+          a.branches,
+          (1 - (t - a.born) / a.life) * (0.6 + Math.random() * 0.4),
+          dpr,
+          arcColors,
+        );
 
       raf = requestAnimationFrame(frame);
     };
@@ -306,7 +356,10 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
     <div className={`intro-root ${reached(stage, "exit") ? "intro-exit" : ""}`} role="presentation">
       <div ref={shakeRef} className="absolute inset-0">
         {/* Cracked ground, revealed by the strike */}
-        <GroundCanvas params={ground} className="pointer-events-none absolute inset-0 h-full w-full" />
+        <GroundCanvas
+          params={ground}
+          className="pointer-events-none absolute inset-0 h-full w-full"
+        />
 
         {/* Katana stuck in the crack where the lightning hit */}
         {reached(stage, "katana") && (
@@ -325,10 +378,19 @@ export function MistIntro({ smog, onReveal, onComplete }: Props) {
         )}
 
         {/* Dust, rubble, sparks, embers and lightning */}
-        <canvas ref={fxRef} aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full" />
+        <canvas
+          ref={fxRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full"
+        />
 
         {/* Foreground smog for depth */}
-        <SmogCanvas params={front} seed={1.7} scale={0.35} className="pointer-events-none absolute inset-0 h-full w-full" />
+        <SmogCanvas
+          params={front}
+          seed={1.7}
+          scale={0.35}
+          className="pointer-events-none absolute inset-0 h-full w-full"
+        />
 
         <div ref={flashRef} className="intro-flash" />
 

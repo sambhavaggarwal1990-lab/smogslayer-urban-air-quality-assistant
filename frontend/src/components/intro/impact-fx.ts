@@ -1,7 +1,27 @@
 // Impact particles: sparks, flying rock debris that lands as rubble, ground dust and rising embers.
 type Spark = { x: number; y: number; vx: number; vy: number; age: number; life: number };
-type Rock = { x: number; y: number; vx: number; vy: number; rot: number; vr: number; size: number; shape: number[]; landY: number; landed: boolean };
-type Ember = { x: number; y: number; vx: number; vy: number; age: number; life: number; size: number; wob: number };
+type Rock = {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  rot: number;
+  vr: number;
+  size: number;
+  shape: number[];
+  landY: number;
+  landed: boolean;
+};
+type Ember = {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  age: number;
+  life: number;
+  size: number;
+  wob: number;
+};
 type Puff = { x: number; y: number; vx: number; vy: number; r: number; age: number; life: number };
 type Ring = { age: number; life: number; power: number };
 
@@ -36,9 +56,28 @@ export class ImpactFX {
     this.s = s;
   }
 
-  private rock(x: number, y: number, vx: number, vy: number, size: number, landY: number, landed: boolean) {
+  private rock(
+    x: number,
+    y: number,
+    vx: number,
+    vy: number,
+    size: number,
+    landY: number,
+    landed: boolean,
+  ) {
     const shape = Array.from({ length: 5 + Math.floor(Math.random() * 3) }, () => rand(0.6, 1));
-    this.rocks.push({ x, y, vx, vy, rot: rand(0, 6.28), vr: rand(-12, 12), size, shape, landY, landed });
+    this.rocks.push({
+      x,
+      y,
+      vx,
+      vy,
+      rot: rand(0, 6.28),
+      vr: rand(-12, 12),
+      size,
+      shape,
+      landY,
+      landed,
+    });
   }
 
   /** Static rubble heaped around the buried blade. */
@@ -57,12 +96,27 @@ export class ImpactFX {
     for (let i = 0; i < 160 * power; i++) {
       const a = -Math.PI / 2 + rand(-1.45, 1.45);
       const sp = rand(250, 1100) * s * (0.6 + power * 0.4);
-      this.sparks.push({ x: ix, y: iy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, age: 0, life: rand(0.35, 1.1) });
+      this.sparks.push({
+        x: ix,
+        y: iy,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp,
+        age: 0,
+        life: rand(0.35, 1.1),
+      });
     }
     for (let i = 0; i < 28 * power; i++) {
       const a = -Math.PI / 2 + rand(-1.1, 1.1);
       const sp = rand(200, 720) * s;
-      this.rock(ix, iy, Math.cos(a) * sp, Math.sin(a) * sp, rand(2.5, 10) * s, iy + rand(-30, 60) * s, false);
+      this.rock(
+        ix,
+        iy,
+        Math.cos(a) * sp,
+        Math.sin(a) * sp,
+        rand(2.5, 10) * s,
+        iy + rand(-30, 60) * s,
+        false,
+      );
     }
     for (let i = 0; i < 30 * power; i++) {
       const left = Math.random() < 0.5;

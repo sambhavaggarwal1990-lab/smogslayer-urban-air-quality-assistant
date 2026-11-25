@@ -27,7 +27,10 @@ export const RETURN_STROKES = [
 ] as const;
 
 /** Sky flashes that light up the smog (in-cloud flicker + every return stroke). */
-export const FLASHES = [{ t: 4.0, flash: 0.25 }, ...RETURN_STROKES.map((s) => ({ t: s.t, flash: s.i }))] as const;
+export const FLASHES = [
+  { t: 4.0, flash: 0.25 },
+  ...RETURN_STROKES.map((s) => ({ t: s.t, flash: s.i })),
+] as const;
 
 export function stageAt(t: number): Stage {
   const T = TIMELINE;
@@ -57,7 +60,10 @@ export function smogAt(t: number) {
 /** Ground crack growth: ruptures on the first stroke, splits further on the big re-strike. */
 export function crackAt(t: number) {
   const second = RETURN_STROKES[2].t;
-  return 0.62 * easeOut(range(t, TIMELINE.strike, TIMELINE.strike + 0.22)) + 0.38 * easeOut(range(t, second, second + 0.4));
+  return (
+    0.62 * easeOut(range(t, TIMELINE.strike, TIMELINE.strike + 0.22)) +
+    0.38 * easeOut(range(t, second, second + 0.4))
+  );
 }
 
 /** Heat glowing inside the crack: white-hot at the strike, cooling to smouldering embers. */

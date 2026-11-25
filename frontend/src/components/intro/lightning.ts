@@ -13,7 +13,10 @@ function segment(a: Pt, b: Pt, rough: number, depth: number): Pt[] {
       const dy = q.y - p.y;
       const len = Math.hypot(dx, dy) || 1;
       const disp = (Math.random() - 0.5) * offset;
-      next.push(p, { x: (p.x + q.x) / 2 + (-dy / len) * disp, y: (p.y + q.y) / 2 + (dx / len) * disp });
+      next.push(p, {
+        x: (p.x + q.x) / 2 + (-dy / len) * disp,
+        y: (p.y + q.y) / 2 + (dx / len) * disp,
+      });
     }
     next.push(pts[pts.length - 1]!);
     pts = next;
@@ -39,16 +42,27 @@ export function makeBolt(a: Pt, b: Pt, rough = 0.16, forks = 4): BoltBranch[] {
   for (let i = 0; i < forks; i++) {
     const s = main[Math.floor(main.length * (0.15 + Math.random() * 0.6))];
     if (!s) continue;
-    const ang = Math.atan2(b.y - a.y, b.x - a.x) + (Math.random() < 0.5 ? -1 : 1) * (0.35 + Math.random() * 0.7);
+    const ang =
+      Math.atan2(b.y - a.y, b.x - a.x) +
+      (Math.random() < 0.5 ? -1 : 1) * (0.35 + Math.random() * 0.7);
     const l = len * (0.12 + Math.random() * 0.25);
-    out.push({ pts: segment(s, { x: s.x + Math.cos(ang) * l, y: s.y + Math.sin(ang) * l }, rough * 1.4, 4), w: 0.45 });
+    out.push({
+      pts: segment(s, { x: s.x + Math.cos(ang) * l, y: s.y + Math.sin(ang) * l }, rough * 1.4, 4),
+      w: 0.45,
+    });
   }
   return out;
 }
 
 export type BoltColors = { glow: string; core: string };
 
-export function drawBolt(ctx: CanvasRenderingContext2D, branches: BoltBranch[], alpha: number, scale: number, colors: BoltColors) {
+export function drawBolt(
+  ctx: CanvasRenderingContext2D,
+  branches: BoltBranch[],
+  alpha: number,
+  scale: number,
+  colors: BoltColors,
+) {
   if (alpha <= 0.01) return;
   ctx.save();
   ctx.globalCompositeOperation = "lighter";
@@ -94,9 +108,15 @@ export function makeStrikeTree(a: Pt, b: Pt, forks = 9): BoltBranch[] {
       const side = Math.random() < 0.5 ? -1 : 1;
       const ang = Math.PI / 2 + side * (0.25 + Math.random() * 0.8);
       const l = len * scale * (0.5 + Math.random());
-      const pts = segment(s, { x: s.x + Math.cos(ang) * l, y: s.y + Math.sin(ang) * l }, 0.24, level === 0 ? 6 : 4);
+      const pts = segment(
+        s,
+        { x: s.x + Math.cos(ang) * l, y: s.y + Math.sin(ang) * l },
+        0.24,
+        level === 0 ? 6 : 4,
+      );
       out.push({ pts, w: level === 0 ? 0.5 : 0.26 });
-      if (level === 0 && Math.random() < 0.75) grow(pts, 1, 1 + Math.floor(Math.random() * 2), scale * 0.45);
+      if (level === 0 && Math.random() < 0.75)
+        grow(pts, 1, 1 + Math.floor(Math.random() * 2), scale * 0.45);
     }
   };
   grow(main, 0, forks, 0.2);
@@ -113,7 +133,7 @@ function strikeLevels(s: Strike, t: number) {
   if (t >= s.leaderStart && t < first) {
     const k = Math.min(1, (t - s.leaderStart) / Math.max(0.001, s.leaderEnd - s.leaderStart));
     // the leader advances in jerky steps
-    const stepped = Math.floor(k * 14) / 14 + (k * 14 - Math.floor(k * 14)) * 0.25 / 14;
+    const stepped = Math.floor(k * 14) / 14 + ((k * 14 - Math.floor(k * 14)) * 0.25) / 14;
     leaderY = s.top + (s.bottom - s.top) * stepped;
   }
   let main = 0;

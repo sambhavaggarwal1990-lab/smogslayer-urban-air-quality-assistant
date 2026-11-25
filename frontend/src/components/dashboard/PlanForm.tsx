@@ -49,11 +49,14 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
       <div className="mx-auto max-w-2xl space-y-3 text-center">
         <h2 className="text-3xl font-black leading-tight tracking-tight text-white sm:text-5xl">
           Beat the smog,{" "}
-          <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">one habit</span>{" "}
+          <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">
+            one habit
+          </span>{" "}
           at a time.
         </h2>
         <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
-          Enter your city to see today's air quality, the best hours to step outside, and low-emission routines for your family.
+          Enter your city to see today's air quality, the best hours to step outside, and
+          low-emission routines for your family.
         </p>
       </div>
 
@@ -65,7 +68,9 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
         className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl backdrop-blur-2xl sm:p-10"
       >
         <div className="space-y-2">
-          <label htmlFor="city" className={labelClass}>City name</label>
+          <label htmlFor="city" className={labelClass}>
+            City name
+          </label>
           <input
             id="city"
             required
@@ -96,8 +101,14 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
                       : "border-slate-800/80 bg-slate-950/50 hover:border-slate-700"
                   }`}
                 >
-                  <Icon className={`mb-2 h-5 w-5 ${selected ? "text-cyan-400" : "text-slate-400"}`} />
-                  <span className={`text-sm font-bold ${selected ? "text-white" : "text-slate-300"}`}>{name}</span>
+                  <Icon
+                    className={`mb-2 h-5 w-5 ${selected ? "text-cyan-400" : "text-slate-400"}`}
+                  />
+                  <span
+                    className={`text-sm font-bold ${selected ? "text-white" : "text-slate-300"}`}
+                  >
+                    {name}
+                  </span>
                 </button>
               );
             })}
@@ -106,8 +117,13 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
 
         <div className="space-y-3 rounded-2xl border border-slate-800/60 bg-slate-950/40 p-4">
           <div className="flex items-center justify-between">
-            <label htmlFor="km" className={labelClass}>One-way distance</label>
-            <output htmlFor="km" className="rounded-lg border border-cyan-800/50 bg-cyan-950/60 px-3 py-1 font-mono font-bold text-cyan-300">
+            <label htmlFor="km" className={labelClass}>
+              One-way distance
+            </label>
+            <output
+              htmlFor="km"
+              className="rounded-lg border border-cyan-800/50 bg-cyan-950/60 px-3 py-1 font-mono font-bold text-cyan-300"
+            >
               {form.one_way_km} km
             </output>
           </div>
@@ -144,7 +160,9 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="language" className={labelClass}>Language for the tips</label>
+          <label htmlFor="language" className={labelClass}>
+            Language for the tips
+          </label>
           <select
             id="language"
             value={form.language}
@@ -152,13 +170,18 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
             className={`${fieldClass} cursor-pointer py-3.5`}
           >
             {LANGUAGES.map(({ id, name }) => (
-              <option key={id} value={id}>{name}</option>
+              <option key={id} value={id}>
+                {name}
+              </option>
             ))}
           </select>
         </div>
 
         {error && (
-          <p role="alert" className="rounded-xl border border-rose-500/40 bg-rose-950/40 p-3 text-sm text-rose-200">
+          <p
+            role="alert"
+            className="rounded-xl border border-rose-500/40 bg-rose-950/40 p-3 text-sm text-rose-200"
+          >
             {error}
           </p>
         )}
@@ -169,7 +192,13 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
           aria-busy={loading}
           className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 px-6 py-4 text-lg font-black text-slate-950 shadow-xl shadow-cyan-500/20 transition hover:shadow-cyan-500/40 disabled:opacity-50"
         >
-          {loading ? "Checking the air…" : <>Get my action plan <ArrowRight className="h-5 w-5" /></>}
+          {loading ? (
+            "Checking the air…"
+          ) : (
+            <>
+              Get my action plan <ArrowRight className="h-5 w-5" />
+            </>
+          )}
         </button>
       </form>
     </div>
