@@ -33,7 +33,7 @@ class PlanTests(ApiTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(set(data), {"air", "alert", "outlook", "impact", "advice", "disclaimer"})
         self.assertEqual(data["air"]["category"], "Unhealthy")
-        self.assertEqual(data["impact"]["monthly_co2_kg"], 74.8)
+        self.assertEqual(data["impact"]["monthly_co2_kg"], 72.6)
         self.assertEqual(data["outlook"]["best"]["label"], "3 PM")
         self.assertEqual(data["advice"], TIPS)
         self.assertIn("emergency number", data["disclaimer"])
@@ -53,7 +53,7 @@ class PlanTests(ApiTestCase):
             self.client.post("/api/plan", json={**BODY, "language": "hinglish"})
         facts = ask.call_args.args[0]
         self.assertEqual((facts["city"], facts["language"], facts["category"]), ("Delhi", "hinglish", "Unhealthy"))
-        self.assertEqual(facts["monthly_co2_kg"], 74.8)
+        self.assertEqual(facts["monthly_co2_kg"], 72.6)
         self.assertNotIn("hours", facts)  # the raw forecast is shown to the user, not sent to the AI
 
 

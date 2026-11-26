@@ -1,3 +1,4 @@
+// Procedural lightning: builds jagged bolts and side branches by repeatedly displacing midpoints, and draws them on a 2D canvas.
 export type Pt = { x: number; y: number };
 export type BoltBranch = { pts: Pt[]; w: number };
 

@@ -1,3 +1,4 @@
+// Root layout shared by every route: the HTML shell and head (fonts, styles), the 404 page and the error page.
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,

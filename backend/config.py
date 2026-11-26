@@ -15,12 +15,17 @@ AQI_BANDS: tuple[tuple[float, str], ...] = (
 )
 
 # --- Commute emissions -----------------------------------------------------------------------------
-# Rough planning figures in kg of CO2e per passenger-km. Replace with cited local data before relying on them.
+# kg of CO2e per kilometre travelled. Rounded from the UK Government GHG Conversion Factors for Company Reporting
+# (DESNZ/DEFRA), 2023 edition: average petrol car 0.1645 per km, average motorbike 0.1137 per km,
+# average local bus 0.1085 and national rail 0.0355 per passenger-km. Official tables:
+# https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting
+# These are UK averages used as a rough proxy (real figures differ by country, vehicle and how full it is),
+# so the app presents the results as estimates.
 EMISSION_KG_PER_KM: dict[str, float] = {
-    "car": 0.17,
-    "motorbike": 0.10,
-    "bus": 0.08,
-    "metro": 0.04,
+    "car": 0.165,
+    "motorbike": 0.114,
+    "bus": 0.108,
+    "metro": 0.035,  # national rail figure, used for metro and train
     "walk_or_cycle": 0.0,
 }
 COMMUTE_MODES: tuple[str, ...] = tuple(EMISSION_KG_PER_KM)

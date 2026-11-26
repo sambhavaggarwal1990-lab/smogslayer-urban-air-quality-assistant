@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { SmogSlayerDashboard } from "@/components/dashboard/SmogSlayerDashboard";
 import { MistIntro } from "@/components/intro/MistIntro";
 import { SmogCanvas, createSmogParams } from "@/components/smog/SmogCanvas";
+import { prefersReducedMotion } from "@/lib/reduced-motion";
 
+/** Page title and the preview shown when the link is shared. */
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -27,11 +29,24 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+/**
+ * The home page: an animated smog layer behind everything, the intro on top at first, and the dashboard.
+ *
+ * Sequence: the intro plays and calls `onReveal` (show the dashboard underneath), then `onComplete` (remove the intro).
+ */
 function Index() {
   // One smog layer lives for the whole visit: the intro drives it, then it keeps drifting behind the app.
   const smog = useRef(createSmogParams());
   const [showApp, setShowApp] = useState(false);
   const [introDone, setIntroDone] = useState(false);
+
+  // Visitors who asked their system for less motion skip the animation and go straight to the dashboard.
+  useEffect(() => {
+    if (prefersReducedMotion()) {
+      setShowApp(true);
+      setIntroDone(true);
+    }
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-background">

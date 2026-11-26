@@ -18,7 +18,7 @@ class AqiCategoryTests(unittest.TestCase):
 class CommuteTests(unittest.TestCase):
     def test_monthly_co2_for_every_mode(self):
         # 10 km each way, 2 trips a day, 22 working days.
-        expected = {"car": 74.8, "motorbike": 44.0, "bus": 35.2, "metro": 17.6, "walk_or_cycle": 0.0}
+        expected = {"car": 72.6, "motorbike": 50.2, "bus": 47.5, "metro": 15.4, "walk_or_cycle": 0.0}
         for mode, kg in expected.items():
             with self.subTest(mode=mode):
                 self.assertEqual(monthly_co2_kg(mode, 10), kg)
@@ -34,8 +34,8 @@ class CommuteTests(unittest.TestCase):
 
     def test_savings_are_the_difference_between_modes(self):
         savings = {s["mode"]: s["saves_kg"] for s in commute_impact("car", 10)["switches"]}
-        self.assertEqual(savings["metro"], 57.2)  # 74.8 - 17.6
-        self.assertEqual(savings["walk_or_cycle"], 74.8)
+        self.assertEqual(savings["metro"], 57.2)  # 72.6 - 15.4
+        self.assertEqual(savings["walk_or_cycle"], 72.6)
 
     def test_zero_distance_means_nothing_to_save(self):
         result = commute_impact("car", 0)

@@ -1,3 +1,4 @@
+// Plain HTML shown when the server fails before React can render anything.
 export function renderErrorPage(): string {
   return `<!doctype html>
 <html lang="en">

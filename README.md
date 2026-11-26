@@ -26,7 +26,11 @@ SmogSlayer is a GenAI-powered assistant for families and communities facing seve
 
 ## Assumptions
 - AQI values are Open-Meteo's modelled estimates, not readings from a local monitor.
-- Emission factors in `backend/config.py` are rough planning figures; a month is 22 working days and each commute is a round trip.
+- Emission factors in `backend/config.py` are rounded from the UK Government (DESNZ/DEFRA) GHG conversion factors, 2023 edition, and are used as a rough proxy for other countries; a month is 22 working days and each commute is a round trip.
+
+## Tests
+- Backend: 70 tests with `python3 -m unittest` (validation, calculations, air data, Gemini handling and the HTTP API, all without network access).
+- Frontend: tests with Vitest and Testing Library (`npm run test`) for the API client, streak, form, results and dashboard flow.
 
 ## Run locally
 ```

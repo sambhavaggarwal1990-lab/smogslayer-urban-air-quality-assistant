@@ -2,7 +2,9 @@ import { ArrowRight, Bike, Bus, Car, Footprints, TrainFront } from "lucide-react
 import { useState } from "react";
 
 import type { PlanRequest } from "@/lib/api";
+import { FOCUS_RING } from "./styles";
 
+/** Commute choices. `id` is the value the backend expects; `Icon` is only decoration. */
 const COMMUTES = [
   { id: "motorbike", name: "Motorbike / Scooter", Icon: Bike },
   { id: "car", name: "Car", Icon: Car },
@@ -11,6 +13,7 @@ const COMMUTES = [
   { id: "walk_or_cycle", name: "Walk / Cycle", Icon: Footprints },
 ] as const;
 
+/** Languages the tips can be written in. */
 const LANGUAGES = [
   { id: "en", name: "English" },
   { id: "hi", name: "Hindi (हिंदी)" },
@@ -26,21 +29,26 @@ const DEFAULT_REQUEST: PlanRequest = {
   language: "en",
 };
 
-const labelClass = "block text-xs font-bold uppercase tracking-wider text-slate-300";
-const fieldClass =
-  "w-full rounded-2xl border border-slate-700/80 bg-slate-950/80 px-5 py-4 font-semibold text-white placeholder-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/30";
-const checkClass =
+// Class strings reused by several fields.
+const LABEL_CLASS = "block text-xs font-bold uppercase tracking-wider text-slate-300";
+const FIELD_CLASS = `w-full rounded-2xl border border-slate-700/80 bg-slate-950/80 px-5 py-4 font-semibold text-white placeholder-slate-400 focus:border-cyan-500 ${FOCUS_RING}`;
+const CHECK_CLASS =
   "flex cursor-pointer items-center gap-3 rounded-xl border border-slate-800/80 bg-slate-950/60 p-3.5 text-sm font-medium text-slate-200 hover:border-slate-700";
 
 type Props = {
+  /** Values to start with, so "Edit inputs" brings back what the user typed. Null on the very first visit. */
   initial: PlanRequest | null;
   loading: boolean;
+  /** Message to show above the button when the last request failed. Empty when there is none. */
   error: string;
   onSubmit: (request: PlanRequest) => void;
 };
 
+/** The input form: city, commute, distance, household and language. Calls `onSubmit` with the cleaned values. */
 export function PlanForm({ initial, loading, error, onSubmit }: Props) {
   const [form, setForm] = useState<PlanRequest>(initial ?? DEFAULT_REQUEST);
+
+  /** Change one field and keep the rest. */
   const update = <K extends keyof PlanRequest>(key: K, value: PlanRequest[K]) =>
     setForm((previous) => ({ ...previous, [key]: value }));
 
@@ -62,13 +70,13 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
 
       <form
         onSubmit={(event) => {
-          event.preventDefault();
+          event.preventDefault(); // stay on the page; the dashboard fetches the plan
           onSubmit({ ...form, city: form.city.trim() });
         }}
         className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl backdrop-blur-2xl sm:p-10"
       >
         <div className="space-y-2">
-          <label htmlFor="city" className={labelClass}>
+          <label htmlFor="city" className={LABEL_CLASS}>
             City name
           </label>
           <input
@@ -77,15 +85,17 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
             minLength={2}
             maxLength={60}
             autoComplete="address-level2"
+            aria-describedby={error ? "form-error" : undefined}
             value={form.city}
             onChange={(event) => update("city", event.target.value)}
             placeholder="e.g. Delhi, Mumbai, Beijing"
-            className={fieldClass}
+            className={FIELD_CLASS}
           />
         </div>
 
+        {/* A group of toggle buttons: `aria-pressed` tells screen readers which one is selected. */}
         <fieldset className="space-y-3">
-          <legend className={labelClass}>How do you usually commute?</legend>
+          <legend className={LABEL_CLASS}>How do you usually commute?</legend>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {COMMUTES.map(({ id, name, Icon }) => {
               const selected = form.commute_mode === id;
@@ -95,13 +105,14 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
                   type="button"
                   aria-pressed={selected}
                   onClick={() => update("commute_mode", id)}
-                  className={`flex flex-col items-start rounded-2xl border p-4 text-left transition ${
+                  className={`flex flex-col items-start rounded-2xl border p-4 text-left transition ${FOCUS_RING} ${
                     selected
                       ? "border-cyan-500/80 bg-slate-800 ring-2 ring-cyan-500/30"
                       : "border-slate-800/80 bg-slate-950/50 hover:border-slate-700"
                   }`}
                 >
                   <Icon
+                    aria-hidden
                     className={`mb-2 h-5 w-5 ${selected ? "text-cyan-400" : "text-slate-400"}`}
                   />
                   <span
@@ -117,7 +128,7 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
 
         <div className="space-y-3 rounded-2xl border border-slate-800/60 bg-slate-950/40 p-4">
           <div className="flex items-center justify-between">
-            <label htmlFor="km" className={labelClass}>
+            <label htmlFor="km" className={LABEL_CLASS}>
               One-way distance
             </label>
             <output
@@ -134,12 +145,12 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
             max={50}
             value={form.one_way_km}
             onChange={(event) => update("one_way_km", Number(event.target.value))}
-            className="h-2 w-full cursor-pointer accent-cyan-400"
+            className={`h-2 w-full cursor-pointer accent-cyan-400 ${FOCUS_RING}`}
           />
         </div>
 
         <div className="space-y-3">
-          <label className={checkClass}>
+          <label className={CHECK_CLASS}>
             <input
               type="checkbox"
               checked={form.sensitive_group}
@@ -148,7 +159,7 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
             />
             Children, older adults or someone with asthma at home
           </label>
-          <label className={checkClass}>
+          <label className={CHECK_CLASS}>
             <input
               type="checkbox"
               checked={form.has_purifier}
@@ -160,14 +171,14 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="language" className={labelClass}>
+          <label htmlFor="language" className={LABEL_CLASS}>
             Language for the tips
           </label>
           <select
             id="language"
             value={form.language}
             onChange={(event) => update("language", event.target.value as PlanRequest["language"])}
-            className={`${fieldClass} cursor-pointer py-3.5`}
+            className={`${FIELD_CLASS} cursor-pointer py-3.5`}
           >
             {LANGUAGES.map(({ id, name }) => (
               <option key={id} value={id}>
@@ -177,8 +188,10 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
           </select>
         </div>
 
+        {/* role="alert" makes screen readers read the error out as soon as it appears. */}
         {error && (
           <p
+            id="form-error"
             role="alert"
             className="rounded-xl border border-rose-500/40 bg-rose-950/40 p-3 text-sm text-rose-200"
           >
@@ -186,17 +199,22 @@ export function PlanForm({ initial, loading, error, onSubmit }: Props) {
           </p>
         )}
 
+        {/* Invisible to sighted users; tells screen-reader users that something is loading. */}
+        <p role="status" className="sr-only">
+          {loading ? "Checking the air…" : ""}
+        </p>
+
         <button
           type="submit"
           disabled={loading}
           aria-busy={loading}
-          className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 px-6 py-4 text-lg font-black text-slate-950 shadow-xl shadow-cyan-500/20 transition hover:shadow-cyan-500/40 disabled:opacity-50"
+          className={`flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 px-6 py-4 text-lg font-black text-slate-950 shadow-xl shadow-cyan-500/20 transition hover:shadow-cyan-500/40 disabled:opacity-50 ${FOCUS_RING}`}
         >
           {loading ? (
             "Checking the air…"
           ) : (
             <>
-              Get my action plan <ArrowRight className="h-5 w-5" />
+              Get my action plan <ArrowRight aria-hidden className="h-5 w-5" />
             </>
           )}
         </button>

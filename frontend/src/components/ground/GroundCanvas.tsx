@@ -1,3 +1,4 @@
+// A WebGL canvas that draws the cracked ground plane the katana is stuck in during the intro.
 import { useEffect, useRef, type RefObject } from "react";
 
 import { SMOG_VERTEX } from "@/components/smog/smog-shader";

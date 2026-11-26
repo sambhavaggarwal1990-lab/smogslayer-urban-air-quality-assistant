@@ -1,3 +1,5 @@
+// The full-screen intro: smog pours in, lightning strikes the katana, the mist clears and the app is revealed.
+// It drives the shared smog layer and tells the page when to show the dashboard (onReveal) and when it is finished (onComplete).
 import { useEffect, useRef, useState, type RefObject } from "react";
 
 import {

@@ -1,3 +1,5 @@
+// A WebGL canvas that draws the animated smog layer from a SmogParams object.
+// The intro animates the parameters; afterwards the same canvas keeps drifting behind the dashboard.
 import { useEffect, useRef, type RefObject } from "react";
 
 import { SMOG_FRAGMENT, SMOG_VERTEX } from "./smog-shader";
